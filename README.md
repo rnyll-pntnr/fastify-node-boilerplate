@@ -64,7 +64,7 @@ The project follows a standard structure for a Node.js application:
 ├── .gitignore
 ├── .prettierignore
 ├── .prettierrc
-├── jest.config.js
+├── jest.config.ts
 ├── package.json
 └── tsconfig.json
 ```
