@@ -2,12 +2,14 @@ import 'dotenv/config'
 import Fastify, { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { connect } from './config/database.config'
 import { defaultRoutes } from './routes'
+import AuthPlugin from './utils/auth.utils'
 import { logger } from './utils/logger.utils'
 
 const app: FastifyInstance = Fastify({
   logger: logger,
 })
 
+app.register(AuthPlugin)
 app.register(import('@fastify/swagger'))
 app.register(import('@fastify/swagger-ui'), {
   routePrefix: '/docs',
