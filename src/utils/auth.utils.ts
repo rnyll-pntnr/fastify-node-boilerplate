@@ -5,20 +5,22 @@ import { DecodedIdToken } from 'firebase-admin/auth'
 import admin from '../config/firebase.config'
 
 declare module 'fastify' {
-  interface FastifyInstance {
-    authenticate(request: FastifyRequest, reply: FastifyReply): Promise<void>
-  }
-
   interface FastifyRequest {
     user?: DecodedIdToken
   }
 }
 
 const AuthPlugin = async (fastify: FastifyInstance, opts: any) => {
-  fastify.decorate(
-    'authenticate',
+  fastify.addHook(
+    'preHandler',
     async (request: FastifyRequest, reply: FastifyReply) => {
       try {
+        if (
+          (request.url && request.url.startsWith('/docs')) ||
+          request.url === '/health'
+        ) {
+          return
+        }
         const authHeader = request.headers.authorization
 
         if (!authHeader || !authHeader.startsWith('Bearer ')) {

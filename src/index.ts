@@ -10,6 +10,7 @@ const app: FastifyInstance = Fastify({
 })
 
 app.register(AuthPlugin)
+app.register(import('@fastify/cors'))
 app.register(import('@fastify/swagger'))
 app.register(import('@fastify/swagger-ui'), {
   routePrefix: '/docs',
@@ -46,6 +47,5 @@ app.listen({ port: parseInt(process.env.PORT || '3000') }, (err, address) => {
     app.log.error(err)
     process.exit(1)
   }
-  app.log.info(`Server started: ${address}`)
 })
 export default app
